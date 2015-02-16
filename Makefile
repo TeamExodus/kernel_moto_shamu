@@ -353,7 +353,7 @@ CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
-GEN_OPT_FLAGS := -g0 -DNDEBUG -fomit-frame-pointer -funsafe-math-optimizations
+GEN_OPT_FLAGS := -g0 -DNDEBUG -fomit-frame-pointer -funsafe-math-optimizations -mcpu=cortex-a15
 
 # Use USERINCLUDE when you must reference the UAPI directories only.
 USERINCLUDE    := \
