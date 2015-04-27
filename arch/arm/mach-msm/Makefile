@@ -139,3 +139,4 @@ obj-$(CONFIG_MMI_UNIT_INFO) += mmi-unit-info.o
 obj-$(CONFIG_MMI_SOC_INFO) += mmi_soc_info.o
 
 obj-$(CONFIG_MSM_SLEEPER) += msm-sleeper.o
+obj-$(CONFIG_ZEN_DECISION) += msm_zen_decision.o
