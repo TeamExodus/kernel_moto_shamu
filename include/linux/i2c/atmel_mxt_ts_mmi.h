@@ -44,4 +44,6 @@ struct mxt_platform_data {
 	const char *cfg_name;
 };
 
+void set_vibrate(int value);
+
 #endif /* __LINUX_ATMEL_MXT_TS_H */
