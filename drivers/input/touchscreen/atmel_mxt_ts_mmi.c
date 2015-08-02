@@ -240,6 +240,8 @@ struct t9_range {
 
 #define MXT_PIXELS_PER_MM	20
 
+#define VIB_STRENGTH 		20
+
 struct mxt_obj_patch {
 	u8 number;
 	u8 instance;
@@ -1517,6 +1519,8 @@ static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
 		dev_info(dev, "T42 normal\n");
 }
 
+static int vib_strength = VIB_STRENGTH;
+
 static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
 {
 	u8 status = msg[1];
@@ -1524,7 +1528,7 @@ static void mxt_proc_t93_messages(struct mxt_data *data, u8 *msg)
 	if (status & 0x2) {
 		struct device *dev = &data->client->dev;
 		struct input_dev *input_dev = data->input_dev;
-
+		set_vibrate(vib_strength);
 		input_report_key(input_dev, KEY_POWER, 1);
 		input_report_key(input_dev, KEY_POWER, 0);
 		input_sync(input_dev);
@@ -4327,6 +4331,24 @@ static ssize_t mxt_tsp_show(struct device *dev,
 			mxt_wakeup_mode_name(tsp_mode));
 }
 
+static ssize_t vib_strength_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	size_t count = 0;
+	count += sprintf(buf, "%d\n", vib_strength);
+	return count;
+}
+
+static ssize_t vib_strength_dump(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t count)
+{
+	sscanf(buf, "%d ",&vib_strength);
+	if (vib_strength < 0 || vib_strength > 90)
+		vib_strength = 20;
+
+	return count;
+}
+
 static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
 static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
 static DEVICE_ATTR(buildid, S_IRUGO, mxt_buildid_show, NULL);
@@ -4351,6 +4373,8 @@ static DEVICE_ATTR(debug_enable, S_IWUSR | S_IRUSR, mxt_debug_enable_show,
 static DEVICE_ATTR(tsi, S_IRUGO, mxt_ud_show, NULL);
 static DEVICE_ATTR(tsp, S_IWUSR | S_IWGRP | S_IRUGO,
 				mxt_tsp_show, mxt_tsp_store);
+static DEVICE_ATTR(vib_strength, (S_IWUSR|S_IRUGO),
+				vib_strength_show, vib_strength_dump);
 
 static struct attribute *mxt_attrs[] = {
 	&dev_attr_fw_version.attr,
@@ -4373,6 +4397,7 @@ static struct attribute *mxt_attrs[] = {
 	&dev_attr_debug_notify.attr,
 	&dev_attr_tsi.attr,
 	&dev_attr_tsp.attr,
+	&dev_attr_vib_strength.attr,
 	NULL
 };
 
