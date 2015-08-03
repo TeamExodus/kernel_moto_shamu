@@ -171,7 +171,7 @@ static ssize_t kcal_invert_show(struct device *dev,
 static ssize_t kcal_sat_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_sat;
+	int kcal_sat = 40;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
@@ -229,7 +229,7 @@ static ssize_t kcal_hue_show(struct device *dev,
 static ssize_t kcal_val_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_val;
+	int kcal_val = 121;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
@@ -258,7 +258,7 @@ static ssize_t kcal_val_show(struct device *dev,
 static ssize_t kcal_cont_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_cont;
+	int kcal_cont = 130;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
