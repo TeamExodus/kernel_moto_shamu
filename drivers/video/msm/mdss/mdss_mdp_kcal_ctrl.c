@@ -171,7 +171,7 @@ static ssize_t kcal_invert_show(struct device *dev,
 static ssize_t kcal_sat_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_sat = 40;
+	int kcal_sat;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
@@ -229,7 +229,7 @@ static ssize_t kcal_hue_show(struct device *dev,
 static ssize_t kcal_val_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_val = 121;
+	int kcal_val;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
@@ -258,7 +258,7 @@ static ssize_t kcal_val_show(struct device *dev,
 static ssize_t kcal_cont_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
-	int kcal_cont = 130;
+	int kcal_cont;
 	struct kcal_lut_data *lut_data = dev_get_drvdata(dev);
 
 	if (count != 4)
@@ -309,11 +309,12 @@ static int kcal_ctrl_probe(struct platform_device *pdev)
 	lut_data->minimum = 35;
 	lut_data->enable = 1;
 	lut_data->invert = 0;
-	lut_data->sat = DEF_PA;
-	lut_data->hue = 0;
-	lut_data->val = DEF_PA;
-	lut_data->cont = DEF_PA;
+	lut_data->sat = DEF_PA + 18;
+	lut_data->hue = 18;
+	lut_data->val = DEF_PA + 6;
+	lut_data->cont = DEF_PA - 9;
 
+    mdss_mdp_pp_kcal_pa(lut_data);
 	platform_set_drvdata(pdev, lut_data);
 
 	ret = device_create_file(&pdev->dev, &dev_attr_kcal);
