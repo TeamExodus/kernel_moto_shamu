@@ -309,11 +309,12 @@ static int kcal_ctrl_probe(struct platform_device *pdev)
 	lut_data->minimum = 35;
 	lut_data->enable = 1;
 	lut_data->invert = 0;
-	lut_data->sat = DEF_PA;
-	lut_data->hue = 0;
-	lut_data->val = DEF_PA;
-	lut_data->cont = DEF_PA;
+	lut_data->sat = DEF_PA + 18;
+	lut_data->hue = 18;
+	lut_data->val = DEF_PA + 6;
+	lut_data->cont = DEF_PA - 9;
 
+	mdss_mdp_pp_kcal_pa(lut_data);
 	platform_set_drvdata(pdev, lut_data);
 
 	ret = device_create_file(&pdev->dev, &dev_attr_kcal);
