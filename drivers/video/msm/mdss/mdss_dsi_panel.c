@@ -759,10 +759,7 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 #ifdef CONFIG_POWERSUSPEND
 	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
 #endif
-<<<<<<< HEAD
 	mdss_screen_on = false;
-=======
->>>>>>> 7615561... [KERNEL] Power Suspend
 
 end:
 	pinfo->blank_state = MDSS_PANEL_BLANK_BLANK;
