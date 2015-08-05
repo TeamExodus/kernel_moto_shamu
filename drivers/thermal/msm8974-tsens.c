@@ -826,10 +826,14 @@ static void tsens_scheduler_fn(struct work_struct *work)
 		}
 	}
 	mb();
+
+	enable_irq(tmdev->tsens_irq);
 }
 
 static irqreturn_t tsens_isr(int irq, void *data)
 {
+	disable_irq_nosync(tmdev->tsens_irq);
+
 	queue_work(tmdev->tsens_wq, &tmdev->tsens_work);
 
 	return IRQ_HANDLED;
@@ -2033,8 +2037,13 @@ static int get_device_tree_data(struct platform_device *pdev)
 	if (!of_match_node(tsens_match, of_node)) {
 		pr_err("Need to read SoC specific fuse map\n");
 		return -ENODEV;
-	} else
+	} else {
 		id = of_match_node(tsens_match, of_node);
+		if (id == NULL) {
+			pr_err("can not find tsens_match of_node\n");
+			return -ENODEV;
+		}
+	}
 
 	tmdev = devm_kzalloc(&pdev->dev,
 			sizeof(struct tsens_tm_device) +
@@ -2252,7 +2261,7 @@ static int _tsens_register_thermal(void)
 	}
 
 	rc = request_irq(tmdev->tsens_irq, tsens_isr,
-		IRQF_TRIGGER_RISING, "tsens_interrupt", tmdev);
+		IRQF_TRIGGER_HIGH, "tsens_interrupt", tmdev);
 	if (rc < 0) {
 		pr_err("%s: request_irq FAIL: %d\n", __func__, rc);
 		for (i = 0; i < tmdev->tsens_num_sensor; i++)
