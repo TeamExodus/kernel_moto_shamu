@@ -52,10 +52,10 @@ static struct delayed_work intelli_plug_boost;
 static struct workqueue_struct *intelliplug_wq;
 static struct workqueue_struct *intelliplug_boost_wq;
 
-static unsigned int intelli_plug_active = 1;
+static unsigned int intelli_plug_active = 0;
 module_param(intelli_plug_active, uint, 0644);
 
-static unsigned int touch_boost_active = 1;
+static unsigned int touch_boost_active = 0;
 module_param(touch_boost_active, uint, 0644);
 
 static unsigned int nr_run_profile_sel = 0;
@@ -76,7 +76,7 @@ struct ip_cpu_info {
 
 static DEFINE_PER_CPU(struct ip_cpu_info, ip_info);
 
-static unsigned int screen_off_max = UINT_MAX;
+static unsigned int screen_off_max = 1267200;
 module_param(screen_off_max, uint, 0644);
 
 #define CAPACITY_RESERVE	50
@@ -142,7 +142,7 @@ static unsigned int *nr_run_profiles[] = {
 };
 
 #define NR_RUN_ECO_MODE_PROFILE	3
-#define NR_RUN_HYSTERESIS_QUAD	10
+#define NR_RUN_HYSTERESIS_QUAD	4
 #define NR_RUN_HYSTERESIS_DUAL	4
 
 #define CPU_NR_THRESHOLD	((THREAD_CAPACITY << 1) + (THREAD_CAPACITY / 2))
