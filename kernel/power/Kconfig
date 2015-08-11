@@ -45,7 +45,7 @@ config HIBERNATE_CALLBACKS
 config HIBERNATION
 	bool "Hibernation (aka 'suspend to disk')"
 	depends on SWAP && ARCH_HIBERNATION_POSSIBLE
-	select HIBERNATE_CALLBACKS
+	select HIBERNATE_CALLBACKSE
 	select LZO_COMPRESS
 	select LZO_DECOMPRESS
 	select CRC32
