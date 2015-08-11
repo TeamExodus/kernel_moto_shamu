@@ -50,8 +50,6 @@ config IOSCHED_ZEN
 	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
 	  Should work best with devices where there is no travel delay.
 
-	  This is the default I/O scheduler.
-
 config IOSCHED_CFQ
 	tristate "CFQ I/O scheduler"
 	default y
@@ -98,6 +96,8 @@ config IOSCHED_BFQ
 	  applications. If compiled built-in (saying Y here), BFQ can
 	  be configured to support hierarchical scheduling.
 
+	  This is the default I/O scheduler.
+
 config CGROUP_BFQIO
 	bool "BFQ hierarchical scheduling support"
 	depends on CGROUPS && IOSCHED_BFQ=y
@@ -109,7 +109,7 @@ config CGROUP_BFQIO
 
 choice
 	prompt "Default I/O scheduler"
-	default DEFAULT_ZEN
+	default DEFAULT_BFQ
 	help
 	  Select the I/O scheduler which will be used by default for all
 	  block devices.
