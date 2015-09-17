@@ -353,8 +353,15 @@ CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
-GEN_OPT_FLAGS := -g0 -DNDEBUG -fomit-frame-pointer -funsafe-math-optimizations
-
+GEN_OPT_FLAGS := $(call cc-option,$(ARM_ARCH_OPT),-march=armv7-a) \
+        -g0 \
+        -DNDEBUG \
+        -fomit-frame-pointer \
+        -funsafe-math-optimizations \
+		-fmodulo-sched \
+		-fmodulo-sched-allow-regmoves \
+		-fivopts
+		
 # Use USERINCLUDE when you must reference the UAPI directories only.
 USERINCLUDE    := \
 		-I$(srctree)/arch/$(hdr-arch)/include/uapi \
